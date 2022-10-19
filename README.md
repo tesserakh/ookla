@@ -1,6 +1,10 @@
 # +62 Internet Speed
 
-**References**
+Instagram: [@datastorytellingid](https://instagram.com/datastorytellingid)
+
+![asean internet speed rank](plot/plot-ranking.png)
+
+**More information**
 
 - <https://www.ookla.com/ookla-for-good/open-data>
 - <https://www.speedtest.net/global-index>

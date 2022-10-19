@@ -10,7 +10,7 @@ This directory contain scripts for managing open data from Ookla:
 
 Also the data result from preparation process:
 
-- `nationwide_trend_quarterly`: national weighed average
+- `IDN_trend_quarterly`: national weighed average trend over years
 
 ## Requirement
 
