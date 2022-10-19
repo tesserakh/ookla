@@ -8,7 +8,9 @@ library(lubridate)
 # Listing data files
 # The data have been clipped by AoI (Indonesia region)
 # See "data" path for more detail
-f <- map(c("data/fixed", "data/mobile"), ~{
+region <- "VNM"
+path <- paste0(sprintf("data/%s/", region), c("fixed", "mobile"))
+f <- map(path, ~{
   files <- list.files(
     path = .x,
     pattern = "shp",
@@ -21,7 +23,8 @@ f <- do.call(c, f)
 # I used this flow due to memory limitation
 # You can also directly import all the data to a list first, then reshape
 trend <- map_df(f, ~{
-  t <- gsub("^data/(.+)/.+shp$", "\\1", .x)
+  p <- sprintf("^data/%s/(.+)/.+shp$", region)
+  t <- gsub(p, "\\1", .x)
   d <- ymd(gsub("^.+(\\d{4}-\\d{2}-\\d{2})\\.shp$", "\\1", .x))
   data <- read_sf(.x)
   data <- data %>% 
@@ -36,11 +39,11 @@ trend <- map_df(f, ~{
 
 trend <- trend %>% 
   mutate(quarter = sprintf("Q%s", quarter(quart_start)), .after = 1) %>%
-  mutate(country = "IDN")
+  mutate(country = region)
 
 # Save resume to RDS and CSV
-saveRDS(trend, "data/nationwide_trend_quarterly.rds")
+filename <- sprintf("data/%s_trend_quarterly", region)
+saveRDS(trend, paste0(filename, ".rds"))
 write.csv(x = trend,
-          file = "data/nationwide_trend_quarterly.csv",
+          file = paste0(filename, ".csv"),
           row.names = FALSE)
-

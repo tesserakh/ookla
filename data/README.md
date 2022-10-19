@@ -47,3 +47,13 @@ ogr2ogr -clipsrc $FOVER $FOUT $FIN
 
 Where, the `$FOVER`, `$FOUT`, and `$FIN` are overlay.shp, output.shp, and input.shp.
 
+## Usage
+
+Example for using `extractor.sh` to clip data with Indonesian (IDN) boundary.
+
+```
+chmod +x extractor.sh
+./extractor.sh IDN
+```
+
+You can add more boundary data in Shapefile from GDAM in [boundary](boundary) path.

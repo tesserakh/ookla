@@ -2,13 +2,16 @@
 
 ## Using qgis_process to clip data using Shapefile boundary
 
-FOVER="boundary/ID.shp"          # overlay shapefile
+#AREA="IDN"
+AREA=$1
+FOVER=$(echo "boundary/${AREA}.shp")  # overlay shapefile
 SERVICE=$(echo fixed mobile)     # list of category/service
 
 for S in $SERVICE; do
   
   # create dir if not exist
-  mkdir -p $S
+  DATAPATH=$(echo "${AREA}/${S}")
+  mkdir -p $DATAPATH
 
   # file listing
   ZIPFILES=$(ls | grep -e "${S}_tiles.zip")
@@ -17,14 +20,14 @@ for S in $SERVICE; do
   for F in $ZIPFILES; do
 
     # unzip shapefile
-    unzip -o -d $S $F
+    unzip -o -d $DATAPATH $F
     
     # get the information
     DATE=$(echo $F | cut -d "_" -f 1)
 
     # define input/output argument
-    FOUT=$(echo "${S}/${S}_${DATE}.shp")
-    FIN=$(echo "${S}/gps_${S}_tiles.shp")
+    FOUT=$(echo "${DATAPATH}/${S}_${DATE}.shp")
+    FIN=$(echo "${DATAPATH}/gps_${S}_tiles.shp")
     
     # run qgis processing
     echo "Cliping Shapefile from ${F}"
@@ -33,5 +36,5 @@ for S in $SERVICE; do
   done
 
   # clean up unused extracted file
-  for FILE in "${S}/gps_${S}_tiles.*"; do rm $FILE; done
+  for FILE in "${DATAPATH}/gps_${S}_tiles.*"; do rm $FILE; done
 done
